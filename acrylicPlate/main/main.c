@@ -47,7 +47,7 @@
 #define WEB_PORT "443"
 #define WEB_URL "https://iotserver8.herokuapp.com/dummydata"
 
-static const char *TAG = "iot8_2";
+static const char *TAG = "iot8";
 
 static const char *REQUEST = "GET " WEB_URL " HTTP/1.0\r\n"
     "Host: "WEB_SERVER"\r\n"
