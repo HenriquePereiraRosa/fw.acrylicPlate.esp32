@@ -45,7 +45,7 @@
 /* Constants that aren't configurable in menuconfig */
 #define WEB_SERVER "iotserver8.herokuapp.com"
 #define WEB_PORT "443"
-#define WEB_URL "https://iotserver8.herokuapp.com/dummydata"
+#define WEB_URL "https://iotserver8.herokuapp.com/"
 
 static const char *TAG = "iot8";
 
@@ -122,13 +122,14 @@ static void https_get_task(void *pvParameters)
 
             if(ret == 0)
             {
-                ESP_LOGI(TAG, "/n connection closed");
+                ESP_LOGI(TAG, "connection closed");
                 break;
             }
 
             len = ret;
             ESP_LOGD(TAG, "%d bytes read", len);
             /* Print response directly to stdout as it is read */
+            ESP_LOGD(TAG, "BUFFER:");
             for(int i = 0; i < len; i++) {
                 putchar(buf[i]);
             }
