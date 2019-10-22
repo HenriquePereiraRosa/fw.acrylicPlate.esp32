@@ -3,7 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := https_request
+PROJECT_NAME := acrylicPlate
 
 EXTRA_COMPONENT_DIRS = $(IDF_PATH)/examples/common_components/protocol_examples_common
 

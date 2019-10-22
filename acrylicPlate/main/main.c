@@ -43,11 +43,11 @@
 #include "esp_tls.h"
 
 /* Constants that aren't configurable in menuconfig */
-#define WEB_SERVER  "iotserver8.herokuapp.com" // "www.howsmyssl.com"
+#define WEB_SERVER "iotserver8.herokuapp.com"
 #define WEB_PORT "443"
-#define WEB_URL "https://iotserver8.herokuapp.com/" // "https://www.howsmyssl.com/a/check"
+#define WEB_URL "https://iotserver8.herokuapp.com/dummydata"
 
-static const char *TAG = "iot";
+static const char *TAG = "iot8_2";
 
 static const char *REQUEST = "GET " WEB_URL " HTTP/1.0\r\n"
     "Host: "WEB_SERVER"\r\n"
@@ -64,17 +64,17 @@ static const char *REQUEST = "GET " WEB_URL " HTTP/1.0\r\n"
    To embed it in the app binary, the PEM file is named
    in the component.mk COMPONENT_EMBED_TXTFILES variable.
 */
-extern const uint8_t server_root_cert_pem_start[] asm("_binary_server_root_cert_pem_start");
-extern const uint8_t server_root_cert_pem_end[]   asm("_binary_server_root_cert_pem_end");
+//extern const uint8_t server_root_cert_pem_start[] asm("_binary_server_root_cert_pem_start");
+//extern const uint8_t server_root_cert_pem_end[]   asm("_binary_server_root_cert_pem_end");
 
 
 static void https_get_task(void *pvParameters)
 {
-    char buf[2048]; // buf[512];
+    char buf[512];
     int ret, len;
 
     while(1) {
-        esp_tls_cfg_t cfg = {};
+         esp_tls_cfg_t cfg = {};
         // esp_tls_cfg_t cfg = {
         //     .cacert_buf  = server_root_cert_pem_start,
         //     .cacert_bytes = server_root_cert_pem_end - server_root_cert_pem_start,
@@ -122,7 +122,7 @@ static void https_get_task(void *pvParameters)
 
             if(ret == 0)
             {
-                ESP_LOGI(TAG, "connection closed");
+                ESP_LOGI(TAG, "/n connection closed");
                 break;
             }
 
@@ -138,9 +138,13 @@ static void https_get_task(void *pvParameters)
         esp_tls_conn_delete(tls);    
         putchar('\n'); // JSON output doesn't have a newline at end
 
-        //static int request_count;
-        //ESP_LOGI(TAG, "Completed %d requests", ++request_count);
-        vTaskDelay(9000000 / portTICK_PERIOD_MS);
+        static int request_count;
+        ESP_LOGI(TAG, "Completed %d requests", ++request_count);
+
+        for(int countdown = 10; countdown >= 0; countdown--) {
+            ESP_LOGI(TAG, "%d...", countdown);
+            vTaskDelay(1000 / portTICK_PERIOD_MS);
+        }
         ESP_LOGI(TAG, "Starting again!");
     }
 }
